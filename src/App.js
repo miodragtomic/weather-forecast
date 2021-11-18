@@ -1,6 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
+//import logo from './logo.svg';
+//import './App.css';
+import { WeatherForecast } from './pages/WeatherForecast';
+import { Provider as StoreProvider } from 'react-redux'
+import { store } from './store';
 
+function App(){
+  return (
+    <StoreProvider store={store}>
+      <WeatherForecast />
+    </StoreProvider>
+  );
+}
+/*
 function App() {
   return (
     <div className="App">
@@ -21,5 +32,6 @@ function App() {
     </div>
   );
 }
+*/
 
 export default App;
