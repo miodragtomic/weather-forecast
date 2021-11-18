@@ -1,15 +1,18 @@
-import { DEFAULT_GRADIENT_POINTS} from "../services.js/gradientService";
-import { DEFAULT_TEMPERATURE } from "../config/appSettings";
+import { DEFAULT_GRADIENT_POINTS} from "../services/gradientService";
+import { DEFAULT_TEMPERATURE, DEFAULT_WEATHER_ICON } from "../config/appSettings";
 import { 
   FETCH_TEN_DAYS_FORECAST_PENDING, 
   FETCH_TEN_DAYS_FORECAST_FULFILLED,
   FETCH_TEN_DAYS_FORECAST_REJECTED } from '../actions/weatherActions';
 
-const initial = {
+const initial = {  
   loading: false,
   gradientPoints: [...DEFAULT_GRADIENT_POINTS],
   cityTemperatures: {},
   tenDaysAverageTemp: DEFAULT_TEMPERATURE,
+  tenDaysAverageWeather: {
+    icon: DEFAULT_WEATHER_ICON,
+  },
   errorMessage: ""
 };
 
@@ -28,6 +31,7 @@ export function weatherReducer(state = initial, action){
         loading: false,
         cityTemperatures: action.payload.cityTemperatures,
         tenDaysAverageTemp: action.payload.tenDaysAverageTemp,
+        tenDaysAverageWeather: action.payload.tenDaysAverageWeather,
         gradientPoints: action.payload.gradientPoints
       }
     }

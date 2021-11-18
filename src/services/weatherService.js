@@ -22,8 +22,12 @@ class WeatherService {
 
   extractCityTemperaturesFromResponse( cityTemperatureResponse){    
     return flow(
-      fp_map( fp_pick(['city.id','city.name', 'city.country']) ),
-      fp_map( cityTemp => (cityTemp.list && this._extractTemperaturesFromTemperatresList(cityTemp.list)) || [])
+      fp_map( fp_pick(['city.id','city.name', 'city.country', 'list']) ),
+      fp_map( cityTemp => ({
+        ...cityTemp,
+        list: (cityTemp.list && this._extractTemperaturesFromTemperatresList(cityTemp.list))  || []
+       }) 
+      )
     )
     (Array.isArray(cityTemperatureResponse)
       ? cityTemperatureResponse
@@ -58,8 +62,8 @@ class WeatherService {
     return new Date(seconds * 1000).toLocaleDateString('sr-Latn-RS', { month: 'long'});
   }  
 
-  /** @type { ( temperaturesList: CityTemperaturesType['list']) => CityTemperaturesType['list'][0]['weather'] } */
-  findClosestWeather( temperaturesList, targetTemperature) {    
+  /** @type { ( temperaturesList: CityTemperaturesType['list']) => Promise<CityTemperaturesType['list'][0]['weather']> } */
+  async findClosestWeather( temperaturesList, targetTemperature) {    
     return flow(
       fp_map(fp_pick(["temp", "weather"])),      
       fp_reduce((acc, next) => {

@@ -1,6 +1,6 @@
 import { weatherApi } from "../api/weatherApi";
-import { gradientService } from "../services.js/gradientService";
-import { weatherService } from "../services.js/weatherService";
+import { gradientService } from "../services/gradientService";
+import { weatherService } from "../services/weatherService";
 
 export const FETCH_TEN_DAYS_FORECAST_PENDING = 'FETCH_TEN_DAYS_FORECAST_PENDING'
 export const FETCH_TEN_DAYS_FORECAST_FULFILLED = 'FETCH_TEN_DAYS_FORECAST_FULFILLED'
@@ -38,14 +38,16 @@ class WeatherActions {
   fetchTenDaysForecast(){
     return async (dispatch) => {
       dispatch( this._startFetchingTenDaysForecast() );    
-      try {
+      try {        
         const cityTemperatures = await weatherApi.fetchTenDaysForecase();
         const tenDaysAverageTemp = weatherService.calulateAverageTenDaysTemperature(cityTemperatures);
+        const tenDaysAverageWeather = await weatherService.findClosestWeather(cityTemperatures.list, tenDaysAverageTemp);
         const gradientPoints = gradientService.calculateGradientPoints(tenDaysAverageTemp);
 
         const weatherReduxObj = {
           cityTemperatures,
           tenDaysAverageTemp,
+          tenDaysAverageWeather,
           gradientPoints
         }
 
