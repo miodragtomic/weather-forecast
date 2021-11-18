@@ -1,5 +1,6 @@
 import { weatherApi } from "../api/weatherApi";
 import { gradientService } from "../services.js/gradientService";
+import { weatherService } from "../services.js/weatherService";
 
 export const FETCH_TEN_DAYS_FORECAST_PENDING = 'FETCH_TEN_DAYS_FORECAST_PENDING'
 export const FETCH_TEN_DAYS_FORECAST_FULFILLED = 'FETCH_TEN_DAYS_FORECAST_FULFILLED'
@@ -10,8 +11,8 @@ class WeatherActions {
   constructor(){    
     this._startFetchingTenDaysForecast = this._startFetchingTenDaysForecast.bind(this);
     this.fetchTenDaysForecast = this.fetchTenDaysForecast.bind(this);
-    this._storeTenDaysForecase = this._storeTenDaysForecase.bind(this);
-    this._errorTenDaysForecase = this._errorTenDaysForecase.bind(this);
+    this._storeTenDaysForecase = this._storeTenDaysForecast.bind(this);
+    this._errorTenDaysForecase = this._errorTenDaysForecast.bind(this);
   }
 
   _startFetchingTenDaysForecast(){
@@ -20,14 +21,14 @@ class WeatherActions {
     }
   }
 
-  _storeTenDaysForecase(result){
+  _storeTenDaysForecast(result){
     return {
       type: FETCH_TEN_DAYS_FORECAST_FULFILLED,
       payload: result
     }
   }
 
-  _errorTenDaysForecase(message){
+  _errorTenDaysForecast(message){
     return {
       type: FETCH_TEN_DAYS_FORECAST_REJECTED,
       payload: message
@@ -38,12 +39,19 @@ class WeatherActions {
     return async (dispatch) => {
       dispatch( this._startFetchingTenDaysForecast() );    
       try {
-        const apiResult = await weatherApi.fetchTenDaysForecase();
-        //calulateGradient points service call
-        //gradientService.calculateGradientPoints(temperature)
-        dispatch( this._storeTenDaysForecase(apiResult) );
+        const cityTemperatures = await weatherApi.fetchTenDaysForecase();
+        const tenDaysAverageTemp = weatherService.calulateAverageTenDaysTemperature(cityTemperatures);
+        const gradientPoints = gradientService.calculateGradientPoints(tenDaysAverageTemp);
+
+        const weatherReduxObj = {
+          cityTemperatures,
+          tenDaysAverageTemp,
+          gradientPoints
+        }
+
+        dispatch( this._storeTenDaysForecast(weatherReduxObj) );
       }catch(error){
-        dispatch( this._errorTenDaysForecase(error.message));
+        dispatch( this._errorTenDaysForecast(error.message));
       }
     }
   }    

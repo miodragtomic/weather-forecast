@@ -1,9 +1,9 @@
-const defaultPoints = [0, 24, 50, 75, 100];
+export const DEFAULT_GRADIENT_POINTS = [0, 24, 50, 75, 100];
 
 class GradientService {
   calculateGradientPoints(temperature){
     const pointAdjustment = (40 - temperature) * 1.25;
-    return defaultPoints.map( point => point + pointAdjustment);
+    return DEFAULT_GRADIENT_POINTS.map( point => point + pointAdjustment);
   }
 
   generateGradientValue(gradientsPoints){
@@ -14,4 +14,3 @@ class GradientService {
 }
 
 export const gradientService = new GradientService();
-export { defaultPoints as gradientDefaultPoints };
