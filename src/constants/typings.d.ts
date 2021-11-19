@@ -16,8 +16,8 @@ export interface TemperatureListItem {
     main: string;
     description: string;
     icon: string;
-
   }
+  weekday_name?: string;
 }
 
 export interface CityTemperaturesType {

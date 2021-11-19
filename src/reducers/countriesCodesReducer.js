@@ -6,7 +6,8 @@ import {
 
 const initialState = {
   loading: false,
-  countriesCodes: []
+  countriesCodes: [],
+  errorMessage: ""
 }
 
 export function countriesCodesReducer(state = initialState, action){
@@ -30,7 +31,7 @@ export function countriesCodesReducer(state = initialState, action){
       return {
         ...state,
         loading: false,
-        countriesCodes: action.payload
+        errorMessage: action.payload
       }      
     }      
 

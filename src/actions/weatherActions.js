@@ -8,11 +8,8 @@ export const FETCH_TEN_DAYS_FORECAST_REJECTED = 'FETCH_TEN_DAYS_FORECAST_REJECTE
 
 
 class WeatherActions {
-  constructor(){    
-    this._startFetchingTenDaysForecast = this._startFetchingTenDaysForecast.bind(this);
+  constructor(){        
     this.fetchTenDaysForecast = this.fetchTenDaysForecast.bind(this);
-    this._storeTenDaysForecase = this._storeTenDaysForecast.bind(this);
-    this._errorTenDaysForecase = this._errorTenDaysForecast.bind(this);
   }
 
   _startFetchingTenDaysForecast(){

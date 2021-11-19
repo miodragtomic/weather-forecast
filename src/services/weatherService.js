@@ -5,19 +5,9 @@ import { NUMBER_OF_DAYS_TO_FETCH } from '../config/appSettings'
 
 class WeatherService {
   constructor(){
-    this.extractCityTemperaturesFromResponse = this.extractCityTemperaturesFromResponse.bind(this);
-    this.extractCountriesFromResponse = this.extractCountriesFromResponse.bind(this);   
-    this.findClosestWeather = this.findClosestWeather.bind(this); 
-  }
-
-  _extractSingleCountryFromResponse( countryResponse ){
-    return pick(countryResponse, ['name', 'alpha2Code', 'flag']);
-  }
-
-  extractCountriesFromResponse( countriesResponse ){
-    return Array.isArray(countriesResponse)
-      ? countriesResponse.map( this._extractSingleCountryFromResponse)
-      : this._extractSingleCountryFromResponse( countriesResponse);
+    this.extractCityTemperaturesFromResponse = this.extractCityTemperaturesFromResponse.bind(this);    
+    this.findClosestWeather = this.findClosestWeather.bind(this);
+    this.calulateAverageTenDaysTemperature = this.calulateAverageTenDaysTemperature.bind(this); 
   }
 
   extractCityTemperaturesFromResponse( cityTemperatureResponse){    
@@ -40,7 +30,7 @@ class WeatherService {
 
     return {
       ...singleTempObj,
-      month_name : this._getMonthName(singleTempObj.dt)
+      weekday_name : this._getWeekdayName(singleTempObj.dt)
     };
   }
 
@@ -58,8 +48,8 @@ class WeatherService {
       .reduce( (acc, nextListItem) => acc + nextListItem.temp.day, 0) / NUMBER_OF_DAYS_TO_FETCH;
   }
 
-  _getMonthName(seconds){
-    return new Date(seconds * 1000).toLocaleDateString('sr-Latn-RS', { month: 'long'});
+  _getWeekdayName(seconds){
+    return new Date(seconds * 1000).toLocaleDateString('default', { weekday: 'long'} );
   }  
 
   /** @type { ( temperaturesList: CityTemperaturesType['list']) => Promise<CityTemperaturesType['list'][0]['weather']> } */

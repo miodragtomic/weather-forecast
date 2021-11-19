@@ -1,4 +1,4 @@
-import { weatherApi } from "../api/weatherApi";
+import { countriesCodesApi } from "../api/countriesCodesApi";
 
 export const FETCH_COUNTRIES_CODES_PENDING = 'FETCH_COUNTRIES_CODES_PENDING';
 export const FETCH_COUNTRIES_CODES_FULFILLED = 'FETCH_COUNTRIES_CODES_FULFILLED';
@@ -34,11 +34,11 @@ class CountriesCodesActions {
     return async function(dispatch){
       dispatch(this._startFetchingCountriesCode())
       try {
-        const countriesCodesList = await weatherApi.fetchTownsCodes();
+        const countriesCodesList = await countriesCodesApi.fetchTownsCodes();
 
         dispatch( this._storeCountriesCode(countriesCodesList))
       }catch(error){
-        dispatch(this._errorCountriesCodes(error))
+        dispatch(this._errorCountriesCodes(error.message))
       }
     }
   }
