@@ -1,4 +1,5 @@
 import styles from './InputField.module.css';
+import { SearchableIcon } from '../SearchableIcon';
 
 export function InputField(props){
   const {
@@ -16,6 +17,7 @@ export function InputField(props){
       type='text' 
       placeholder={placeholder}
       value={value} 
-    />
+    />    
+    <SearchableIcon />    
   </div>)
 }

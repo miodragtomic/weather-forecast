@@ -1,3 +1,9 @@
+.input-field-container {
+    padding: 0;
+    margin: auto;    
+    position: relative;
+}
+
 .input-field {
     padding: 0.625rem;
     border-radius: 0.5rem;
@@ -7,6 +13,7 @@
     /*font-family: 'Roboto Condensed', sans-serif;*/
     font-family: 'Source Sans Pro', sans-serif;
     min-width: 19rem;    
+    padding-right: 48px;
 }
 
 .input-field::placeholder {
@@ -14,9 +21,4 @@
     color: rgb(140, 145, 162, 0.75);        
     /*color: rgb(140, 145, 162);*/    
     /*color: rgb(178, 182, 193);*/    
-}
-
-.input-field-container {
-    padding: 0;
-    margin: auto;    
 }
