@@ -1,14 +1,16 @@
 .loader-container {
     height: 24px;
     width: 24px;
-    position: absolute;
-    right: 6px;
-    top: 10px;
     margin: 0;
     padding: 0;
+    
+    display: flex;
 }
 
 .loader {
+    align-self: center;
+    display: flex;
+
     /*border: 16px solid #f3f3f3;*/
     border: 4.26px solid #f3f3f3;
     
