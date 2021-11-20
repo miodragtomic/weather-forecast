@@ -1,5 +1,5 @@
 import { LOAD_ALL_COUNTRIES } from "../config/environment";
-import { countriesCodesService } from "../services/countiresCodesService";
+import { countriesCodesService } from "../services/countriesCodesService";
 import { testCountryCodes } from "../constants/testData"; 
 import { COUNTRIES_CODES, ECONOMIC_API} from '../config/appSettings'
 

@@ -9,7 +9,7 @@ class GradientService {
   generateGradientValue(gradientsPoints){
     const [first, second, third, fourth, fifth] = gradientsPoints;
   
-    return `background-image: linear-gradient(to right, rgb(22, 48, 122) ${first}%,rgb(73, 159, 229) ${second}%, rgb(168, 218, 250) ${third}%, rgb(248, 214, 123) ${fourth}%, rgb(240, 150, 97) ${fifth}% );`
+    return `linear-gradient(to right, rgb(22, 48, 122) ${first}%,rgb(73, 159, 229) ${second}%, rgb(168, 218, 250) ${third}%, rgb(248, 214, 123) ${fourth}%, rgb(240, 150, 97) ${fifth}% )`
   }  
 }
 

@@ -1,6 +1,6 @@
 import styles from './BackgroundGradient.module.css';
 import React, { useEffect } from 'react';
-import { gradientService as gs } from '../../services.js/gradientService';
+import { gradientService as gs } from '../../services/gradientService';
 import { useSelector } from 'react-redux';
 
 

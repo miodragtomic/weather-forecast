@@ -1,5 +1,5 @@
 import { DEFAULT_GRADIENT_POINTS} from "../services/gradientService";
-import { DEFAULT_TEMPERATURE, DEFAULT_WEATHER_ICON } from "../config/appSettings";
+import { DEFAULT_TEMPERATURE, DEFAULT_WEATHER_DESCRIPTION, DEFAULT_WEATHER_ICON } from "../config/appSettings";
 import { 
   FETCH_TEN_DAYS_FORECAST_PENDING, 
   FETCH_TEN_DAYS_FORECAST_FULFILLED,
@@ -12,6 +12,7 @@ const initial = {
   tenDaysAverageTemp: DEFAULT_TEMPERATURE,
   tenDaysAverageWeather: {
     icon: DEFAULT_WEATHER_ICON,
+    description: DEFAULT_WEATHER_DESCRIPTION,
   },
   errorMessage: ""
 };

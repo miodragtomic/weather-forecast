@@ -1,13 +1,14 @@
 import pick from 'lodash/pick';
 import { pick as fp_pick, map as fp_map, sortBy as fp_sortBy, reduce as fp_reduce, flow} from 'lodash/fp';
-import { CountryCodesType, CityTemperaturesType, TemperatureListItem } from '../constants/typings';
+//import { CountryCodesType, CityTemperaturesType, TemperatureListItem } from '../constants/typings';
 import { NUMBER_OF_DAYS_TO_FETCH } from '../config/appSettings'
 
 class WeatherService {
   constructor(){
     this.extractCityTemperaturesFromResponse = this.extractCityTemperaturesFromResponse.bind(this);    
     this.findClosestWeather = this.findClosestWeather.bind(this);
-    this.calulateAverageTenDaysTemperature = this.calulateAverageTenDaysTemperature.bind(this); 
+    this.calulateAverageTenDaysTemperature = this.calulateAverageTenDaysTemperature.bind(this);
+    this.generateWeatherIconUrl = this.generateWeatherIconUrl.bind(this); 
   }
 
   extractCityTemperaturesFromResponse( cityTemperatureResponse){    
@@ -67,6 +68,10 @@ class WeatherService {
       }, null)
 
     )(temperaturesList).weather;
+  }
+
+  generateWeatherIconUrl(iconSymbolicName){
+    return `http://openweathermap.org/img/wn/${iconSymbolicName}@2x.png`
   }
 }
 

@@ -1,0 +1,22 @@
+.input-field {
+    padding: 0.625rem;
+    border-radius: 0.5rem;
+    /*border: solid rgb(246, 246, 247) 0.125rem;*/
+    border: solid rgb(243, 243, 245) 0.125rem;
+    color: green;    
+    /*font-family: 'Roboto Condensed', sans-serif;*/
+    font-family: 'Source Sans Pro', sans-serif;
+    min-width: 19rem;    
+}
+
+.input-field::placeholder {
+    /*color: rgb(147, 153, 168);*/
+    color: rgb(140, 145, 162, 0.75);        
+    /*color: rgb(140, 145, 162);*/    
+    /*color: rgb(178, 182, 193);*/    
+}
+
+.input-field-container {
+    padding: 0;
+    margin: auto;    
+}
