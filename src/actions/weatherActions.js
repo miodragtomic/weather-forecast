@@ -38,6 +38,7 @@ class WeatherActions {
       dispatch( this._startFetchingTenDaysForecast() );    
       try {        
         const { selectedCountryCode } = ECONOMIC_API ?  { selectedCountryCode: 'RS'} : getState().countriesCodes;
+        
         if( selectedCountryCode == null) throw new Error("Please select country code");
         
         const cityTemperatures = await weatherApi.fetchTenDaysForecase(selectedCountryCode, cityName);

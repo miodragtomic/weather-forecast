@@ -1,5 +1,5 @@
 import pick from 'lodash/pick';
-import { pick as fp_pick, map as fp_map, sortBy as fp_sortBy, reduce as fp_reduce, flow} from 'lodash/fp';
+import { pick as fp_pick, map as fp_map, sortBy as fp_sortBy, reduce as fp_reduce, flow, head} from 'lodash/fp';
 //import { CountryCodesType, CityTemperaturesType, TemperatureListItem } from '../constants/typings';
 import { NUMBER_OF_DAYS_TO_FETCH } from '../config/appSettings'
 
@@ -62,7 +62,7 @@ class WeatherService {
 
   /** @type { ( temperaturesList: CityTemperaturesType['list']) => Promise<CityTemperaturesType['list'][0]['weather']> } */
   async findClosestWeather( temperaturesList, targetTemperature) {    
-    return flow(
+    const weatherArray = flow(
       fp_map(fp_pick(["temp", "weather"])),      
       fp_reduce((acc, next) => {
         if(acc == null){
@@ -72,9 +72,11 @@ class WeatherService {
         return Math.abs(targetTemperature - next.temp.day) < Math.abs(targetTemperature - acc.temp.day)
           ? next
           : acc
-      }, null)
-
-    )(temperaturesList).weather.shift();
+      }, null),
+      
+    )(temperaturesList).weather;
+    
+    return head(weatherArray);
   }
 
   generateWeatherIconUrl(iconSymbolicName){
