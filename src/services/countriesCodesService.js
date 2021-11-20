@@ -3,6 +3,7 @@ import pick from 'lodash/pick';
 class CountriesCodesService {
   constructor() {
     this.extractCountriesFromResponse = this.extractCountriesFromResponse.bind(this);
+    this._extractSingleCountryFromResponse = this._extractSingleCountryFromResponse.bind(this);
   }
 
   _extractSingleCountryFromResponse( countryResponse ){

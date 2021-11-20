@@ -1,4 +1,5 @@
 import { weatherApi } from "../api/weatherApi";
+import { ECONOMIC_API } from "../config/appSettings";
 import { gradientService } from "../services/gradientService";
 import { weatherService } from "../services/weatherService";
 
@@ -32,11 +33,14 @@ class WeatherActions {
     }
   }
 
-  fetchTenDaysForecast(){
-    return async (dispatch) => {
+  fetchTenDaysForecast(cityName){
+    return async (dispatch, getState) => {
       dispatch( this._startFetchingTenDaysForecast() );    
       try {        
-        const cityTemperatures = await weatherApi.fetchTenDaysForecase();
+        const { selectedCountryCode } = ECONOMIC_API ?  { selectedCountryCode: 'RS'} : getState().countriesCodes;
+        if( selectedCountryCode == null) throw new Error("Please select country code");
+        
+        const cityTemperatures = await weatherApi.fetchTenDaysForecase(selectedCountryCode, cityName);
         const tenDaysAverageTemp = weatherService.calulateAverageTenDaysTemperature(cityTemperatures);
         const tenDaysAverageWeather = await weatherService.findClosestWeather(cityTemperatures.list, tenDaysAverageTemp);
         const gradientPoints = gradientService.calculateGradientPoints(tenDaysAverageTemp);
@@ -50,7 +54,7 @@ class WeatherActions {
 
         dispatch( this._storeTenDaysForecast(weatherReduxObj) );
       }catch(error){
-        dispatch( this._errorTenDaysForecast(error.message));
+        dispatch( this._errorTenDaysForecast(error.message));        
       }
     }
   }    

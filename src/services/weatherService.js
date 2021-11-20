@@ -3,20 +3,27 @@ import { pick as fp_pick, map as fp_map, sortBy as fp_sortBy, reduce as fp_reduc
 //import { CountryCodesType, CityTemperaturesType, TemperatureListItem } from '../constants/typings';
 import { NUMBER_OF_DAYS_TO_FETCH } from '../config/appSettings'
 
+
 class WeatherService {
-  constructor(){
+  constructor(){    
     this.extractCityTemperaturesFromResponse = this.extractCityTemperaturesFromResponse.bind(this);    
     this.findClosestWeather = this.findClosestWeather.bind(this);
     this.calulateAverageTenDaysTemperature = this.calulateAverageTenDaysTemperature.bind(this);
     this.generateWeatherIconUrl = this.generateWeatherIconUrl.bind(this); 
+
+    this._extractSingleTemperatureFromTemperatureObject = this._extractSingleTemperatureFromTemperatureObject.bind(this);
+    this._extractTemperaturesFromTemperatresList = this._extractTemperaturesFromTemperatresList.bind(this);
+    this._getWeekdayName = this._getWeekdayName.bind(this);
+       
   }
 
   extractCityTemperaturesFromResponse( cityTemperatureResponse){    
+    const that = this;
     return flow(
       fp_map( fp_pick(['city.id','city.name', 'city.country', 'list']) ),
       fp_map( cityTemp => ({
         ...cityTemp,
-        list: (cityTemp.list && this._extractTemperaturesFromTemperatresList(cityTemp.list))  || []
+        list: (cityTemp.list && that._extractTemperaturesFromTemperatresList(cityTemp.list))  || []
        }) 
       )
     )
@@ -25,6 +32,10 @@ class WeatherService {
       : [cityTemperatureResponse]
     ).shift();
   }
+
+  _getWeekdayName(seconds){
+    return new Date(seconds * 1000).toLocaleDateString('default', { weekday: 'long'} );
+  }  
 
   _extractSingleTemperatureFromTemperatureObject( temperatureObject){
     const singleTempObj = pick(temperatureObject, ['dt','temp.day', 'temp.min', 'temp.max', 'weather'])
@@ -49,10 +60,6 @@ class WeatherService {
       .reduce( (acc, nextListItem) => acc + nextListItem.temp.day, 0) / NUMBER_OF_DAYS_TO_FETCH;
   }
 
-  _getWeekdayName(seconds){
-    return new Date(seconds * 1000).toLocaleDateString('default', { weekday: 'long'} );
-  }  
-
   /** @type { ( temperaturesList: CityTemperaturesType['list']) => Promise<CityTemperaturesType['list'][0]['weather']> } */
   async findClosestWeather( temperaturesList, targetTemperature) {    
     return flow(
@@ -67,7 +74,7 @@ class WeatherService {
           : acc
       }, null)
 
-    )(temperaturesList).weather;
+    )(temperaturesList).weather.shift();
   }
 
   generateWeatherIconUrl(iconSymbolicName){
