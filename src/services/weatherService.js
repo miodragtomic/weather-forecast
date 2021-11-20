@@ -1,29 +1,29 @@
 import pick from 'lodash/pick';
 import { pick as fp_pick, map as fp_map, sortBy as fp_sortBy, reduce as fp_reduce, flow, head} from 'lodash/fp';
 //import { CountryCodesType, CityTemperaturesType, TemperatureListItem } from '../constants/typings';
-import { NUMBER_OF_DAYS_TO_FETCH } from '../config/appSettings'
+import { NUMBER_OF_DAYS_TO_FETCH, OPEN_WEATHER_API_FREE_USER } from '../config/appSettings'
 
 
-class WeatherService {
+class WeatherServiceSevenDays {
   constructor(){    
     this.extractCityTemperaturesFromResponse = this.extractCityTemperaturesFromResponse.bind(this);    
     this.findClosestWeather = this.findClosestWeather.bind(this);
-    this.calulateAverageTenDaysTemperature = this.calulateAverageTenDaysTemperature.bind(this);
+    this.calulateAverageTenDaysTemperature = this.calulateAverageSevenOrTenDaysTemperature.bind(this);
     this.generateWeatherIconUrl = this.generateWeatherIconUrl.bind(this); 
+    this.getCityWeatherList = this.getCityWeatherList.bind(this);
 
     this._extractSingleTemperatureFromTemperatureObject = this._extractSingleTemperatureFromTemperatureObject.bind(this);
     this._extractTemperaturesFromTemperatresList = this._extractTemperaturesFromTemperatresList.bind(this);
-    this._getWeekdayName = this._getWeekdayName.bind(this);
-       
+    this._getWeekdayName = this._getWeekdayName.bind(this);       
   }
 
   extractCityTemperaturesFromResponse( cityTemperatureResponse){    
     const that = this;
     return flow(
-      fp_map( fp_pick(['city.id','city.name', 'city.country', 'list']) ),
+      fp_map( fp_pick(['lat','lon', 'daily']) ),
       fp_map( cityTemp => ({
         ...cityTemp,
-        list: (cityTemp.list && that._extractTemperaturesFromTemperatresList(cityTemp.list))  || []
+        daily: (cityTemp.daily && that._extractTemperaturesFromTemperatresList(cityTemp.daily))  || []
        }) 
       )
     )
@@ -53,8 +53,8 @@ class WeatherService {
   }
   
   /** @type { ( cityTemperatures: CityTemperaturesType ) => number } */
-  calulateAverageTenDaysTemperature( cityTemperatures){
-    const { list : temperaturesList } = cityTemperatures;    
+  calulateAverageSevenOrTenDaysTemperature( cityTemperatures){
+    const { daily : temperaturesList } = cityTemperatures;    
 
     return temperaturesList
       .reduce( (acc, nextListItem) => acc + nextListItem.temp.day, 0) / NUMBER_OF_DAYS_TO_FETCH;
@@ -82,6 +82,47 @@ class WeatherService {
   generateWeatherIconUrl(iconSymbolicName){
     return `http://openweathermap.org/img/wn/${iconSymbolicName}@2x.png`
   }
+
+  getCityWeatherList(cityTemperatures){
+    return OPEN_WEATHER_API_FREE_USER
+      ? cityTemperatures.daily
+      : cityTemperatures.list
+  }
 }
 
-export const weatherService = new WeatherService();
+
+class WeatherServiceTenDays extends WeatherServiceSevenDays{
+  constructor(){    
+    super();
+    this.extractCityTemperaturesFromResponse = this.extractCityTemperaturesFromResponse.bind(this);           
+    this.calulateAverageSevenOrTenDaysTemperature = this.calulateAverageSevenOrTenDaysTemperature.bind(this);
+  }
+
+  extractCityTemperaturesFromResponse( cityTemperatureResponse){    
+    const that = this;
+    return flow(
+      fp_map( fp_pick(['city.id','city.name', 'city.country', 'list']) ),
+      fp_map( cityTemp => ({
+        ...cityTemp,
+        list: (cityTemp.list && that._extractTemperaturesFromTemperatresList(cityTemp.list))  || []
+       }) 
+      )
+    )
+    (Array.isArray(cityTemperatureResponse)
+      ? cityTemperatureResponse
+      : [cityTemperatureResponse]
+    ).shift();
+  }  
+
+  calulateAverageSevenOrTenDaysTemperature( cityTemperatures){
+    const { list : temperaturesList } = cityTemperatures;    
+
+    return temperaturesList
+      .reduce( (acc, nextListItem) => acc + nextListItem.temp.day, 0) / NUMBER_OF_DAYS_TO_FETCH;
+  }
+
+}
+
+export const weatherService = OPEN_WEATHER_API_FREE_USER 
+  ? new WeatherServiceSevenDays()
+  : new WeatherServiceTenDays()

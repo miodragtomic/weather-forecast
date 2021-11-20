@@ -7,7 +7,7 @@ class CountriesCodesService {
   }
 
   _extractSingleCountryFromResponse( countryResponse ){
-    return pick(countryResponse, ['name', 'alpha2Code', 'flag']);
+    return pick(countryResponse, ['name', 'alpha2Code', 'flag', 'latlng']);
   }
 
   extractCountriesFromResponse( countriesResponse ){

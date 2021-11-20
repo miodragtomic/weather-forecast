@@ -1,5 +1,6 @@
 import { weatherApi } from "../api/weatherApi";
-import { ECONOMIC_API } from "../config/appSettings";
+import { ECONOMIC_API, OPEN_WEATHER_API_FREE_USER } from "../config/appSettings";
+import { DEBUG_THROW_ERROR } from "../config/environment";
 import { gradientService } from "../services/gradientService";
 import { weatherService } from "../services/weatherService";
 
@@ -40,10 +41,23 @@ class WeatherActions {
         const { selectedCountryCode } = ECONOMIC_API ?  { selectedCountryCode: 'RS'} : getState().countriesCodes;
         
         if( selectedCountryCode == null) throw new Error("Please select country code");
+
+        let cityTemperatures;
+        if(OPEN_WEATHER_API_FREE_USER){
+          const { countriesCodes } = getState().countriesCodes;
+
+          const [lat, lng] = countriesCodes.find( ccEntry => ccEntry.alpha2Code === selectedCountryCode).latlng;
+          cityTemperatures = await weatherApi.fetchSevenDaysForecast(lat, lng);
+
+        }else {
+          cityTemperatures = await weatherApi.fetchTenDaysForecast(selectedCountryCode, cityName);
+        }
         
-        const cityTemperatures = await weatherApi.fetchTenDaysForecase(selectedCountryCode, cityName);
-        const tenDaysAverageTemp = weatherService.calulateAverageTenDaysTemperature(cityTemperatures);
-        const tenDaysAverageWeather = await weatherService.findClosestWeather(cityTemperatures.list, tenDaysAverageTemp);
+        const tenDaysAverageTemp = weatherService.calulateAverageSevenOrTenDaysTemperature(cityTemperatures);
+        const tenDaysAverageWeather = await weatherService.findClosestWeather(
+          weatherService.getCityWeatherList(cityTemperatures),
+          tenDaysAverageTemp
+        );
         const gradientPoints = gradientService.calculateGradientPoints(tenDaysAverageTemp);
 
         const weatherReduxObj = {
@@ -55,7 +69,8 @@ class WeatherActions {
 
         dispatch( this._storeTenDaysForecast(weatherReduxObj) );
       }catch(error){
-        dispatch( this._errorTenDaysForecast(error.message));        
+        dispatch( this._errorTenDaysForecast(error.message));              
+        if( DEBUG_THROW_ERROR) throw error;  
       }
     }
   }    

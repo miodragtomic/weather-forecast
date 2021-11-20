@@ -2,6 +2,7 @@ export interface CountryCodesType {
   name: string;
   alpha2Code: string;
   flag: string;
+  latlng: [number, number];
 }
 
 export interface TemperatureListItem {
@@ -11,20 +12,17 @@ export interface TemperatureListItem {
     min: number;
     max: number;
   },
-  weather: {
+  weather: [{
     id: number;
     main: string;
     description: string;
     icon: string;
-  }
+  }]
   weekday_name?: string;
 }
 
 export interface CityTemperaturesType {
-  city: {
-    id: number;
-    name: string;
-    country: string;
-  },
-  list: Array<TemperatureListItem>;
+  lat: number;
+  lon: number;
+  daily: Array<TemperatureListItem>;
 }
