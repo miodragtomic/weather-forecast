@@ -25,7 +25,10 @@ export function countriesCodesReducer(state = initialState, action){
       return {
         ...state, 
         loading: false,
-        countriesCodes: action.payload
+        countriesCodes: action.payload,
+        selectedCountryCode: state.selectedCountryCode == null && action.payload.length > 0 
+          ? action.payload[0].alpha2Code
+          : state.selectedCountryCode
       };
     }
 

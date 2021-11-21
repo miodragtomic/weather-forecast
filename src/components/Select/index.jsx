@@ -14,11 +14,11 @@ export function Select(props){
 
     iconUrlSelector,
     iconHintSelector,
-    iconHeight,
-    iconWidth,    
+    iconHeight = 24,
+    iconWidth = 24,    
   } = props;
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   const toggleOpen = () => {
     setOpen(!open);
@@ -30,16 +30,34 @@ export function Select(props){
     }
   }
   
-  const headerTitle = useMemo( () => {    
-    return titleSelector(children.find( child => valueSelector(child) === value ));
-  }, [value, keySelector, titleSelector, children])
+
+  const headerTitle = useMemo( () => {
+    if(value == null)  return "";
+    
+    return titleSelector(children?.find( child => valueSelector(child) === value ));
+  }, [value, valueSelector, titleSelector, children])
+
+  const iconUrl = useMemo( () => {
+    if(value == null)  return "";
+    
+    return iconUrlSelector && iconUrlSelector(children?.find( child => valueSelector(child) === value ));
+  }, [value, valueSelector, iconUrlSelector, children])
+
+  const iconHint = useMemo( () => {
+    if(value == null)  return "";
+    
+    return iconHintSelector && iconHintSelector(children?.find( child => valueSelector(child) === value ));
+  }, [value, valueSelector, iconHintSelector, children])
+
+
+
 
   return (
     <div className={styles['select-container']}>
       <SelectHeader
         title={value && headerTitle || placeholder} 
-        iconUrlSelector={iconUrlSelector}
-        iconHintSelector={iconHintSelector}
+        iconUrl={iconUrl}
+        iconHint={iconHint}
         iconHeight={iconHeight}
         iconWidth={iconWidth}
         />
@@ -71,17 +89,18 @@ function SelectHeader(props) {
   } = props;
 
   return (
-    <div>
+    <div className={styles['select-header']}>
       {
         iconUrl && (
           <img 
+            className={styles['select-content-listitem-atom']}
             src={iconUrl} 
             height={iconHeight} 
             width={iconWidth} 
             alt={iconHint}
           />)
       }
-      {title}
+      <div className={styles['select-contant-listitem-atom']}>{title}</div>
     </div>
   )
 }
@@ -98,17 +117,20 @@ function SelectContent(props){
     titleSelector,
     children
   } = props;
+  
   return (
-    <ul>
+    <ul className={styles['select-content']}>
       {
-        children.map( child => (
+        children?.map( child => (
         <li 
+          className={styles['select-content-listitem']}
           key={keySelector(child)} 
           value={valueSelector(child)}
         > 
         {
           iconUrlSelector && (
             <img 
+              className={styles['select-content-listitem-atom']}
               src={iconUrlSelector(child)} 
               alt={iconHintSelector(child)} 
               width={iconWidth}
@@ -116,7 +138,7 @@ function SelectContent(props){
             />
           )
         }
-          {titleSelector(child)}
+          <div className={styles['select-contant-listitem-atom']}>{titleSelector(child)}</div>
         </li>
         ))
       }

@@ -2,10 +2,11 @@ import { Select } from './Select';
 import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { countriesCodesActions } from '../actions/countriesCodesActions';
+import { SpinnerIcon } from './SearchableIcon/SpinnerIcon'
 
 const iconUrlSelector = countryCodeObj => countryCodeObj.flag;
 const iconHintSelector = countryCodeObj => countryCodeObj.name;
-const valueSelector = coutnryCodeObj => coutnryCodeObj.alpha2Code;
+const valueSelector = countryCodeObj => countryCodeObj.alpha2Code;
 const keySelector = valueSelector;
 const titleSelector = valueSelector;
 
@@ -13,6 +14,7 @@ const titleSelector = valueSelector;
 export function CountriesCodesSelect(props) {
   const countriesCodes = useSelector( store => store.countriesCodes.countriesCodes);
   const selectedCountryCode = useSelector( store => store.countriesCodes.selectedCountryCode);
+  const loading = useSelector( store => store.countriesCodes.loading);
 
   const dispatch = useDispatch();
 
@@ -22,6 +24,10 @@ export function CountriesCodesSelect(props) {
 
   const onChangeSelectedHandler = (value) => {
     dispatch(countriesCodesActions.setSelectedCountryCode(value));
+  }
+
+  if(loading){
+    return <SpinnerIcon />
   }
 
   return (

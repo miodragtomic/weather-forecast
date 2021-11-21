@@ -16,10 +16,6 @@ export function InputsContainer(props){
   } = useSelector( store => store.weather.tenDaysAverageWeather);
   
   const dispatch = useDispatch();
-
-  useEffect( () => {
-    dispatch(countriesCodesActions.fetchCountiresCodes());
-  }, []);
   
   const weatherIconUrl = useMemo(() => 
     weatherService.generateWeatherIconUrl(weatherIcon), 
@@ -29,7 +25,6 @@ export function InputsContainer(props){
     dispatch(weatherActions.fetchTenDaysForecast(value) );
   }
   
-
   return (
     <div className={styles['inputs-container']}>
       <WeatherIcon
