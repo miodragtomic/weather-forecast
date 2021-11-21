@@ -13,7 +13,8 @@ class WeatherApi {
 
   /// Not available for free members
   async fetchTenDaysForecast(countryCode, cityName, units = 'metric'){
-    return fetch( `https://api.openweathermap.org/data/2.5/forecast/daily?q=${cityName},${countryCode}&cnt=${NUMBER_OF_DAYS_TO_FETCH}&appid=${OPEN_API_KEY}&units=${units}`)
+    const uriEncodedCityName = encodeURI(cityName);
+    return fetch( `https://api.openweathermap.org/data/2.5/forecast/daily?q=${uriEncodedCityName},${countryCode}&cnt=${NUMBER_OF_DAYS_TO_FETCH}&appid=${OPEN_API_KEY}&units=${units}`)
         .then( result => result.json() )
         .then( weatherService.extractCityTemperaturesFromResponse )      
   }

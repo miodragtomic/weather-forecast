@@ -4,7 +4,7 @@
     flex-wrap: nowrap;
     justify-content: space-around;    
 
-    /*border: solid orange 2px;    */    
+    /*border: solid orange 2px;*/
 }
 
 .temperaturecard-container-size {
@@ -13,6 +13,16 @@
     padding: 8px;
     margin: 0.5rem;
 }
+/* large */
+.temperaturecard-container-size-large {
+    /*height: 222px;*/
+    /*width: 204px;*/
+    height: 185px;
+    width: 170;
+    padding: 8px;
+    margin: 0.5rem;
+}
+
 
 .temperaturecard-title {
     flex-grow: 1;
@@ -26,6 +36,12 @@
 .temperaturecard-title-size {
     font-size: 14px;        
 }
+
+/* large */
+.temperaturecard-title-size-large {
+    font-size: 20px;        
+}
+
 
 .temperaturecard-temperature {
     flex-grow: 3;
@@ -47,6 +63,12 @@
     font-size: 18px;  
 }
 
+/* large */
+.temperaturecard-temperature-size-large {
+    letter-spacing: -1px;
+    font-size: 54px;  
+}
+
 
 .temperaturecard-temperature-number {
     display: block;    
@@ -60,6 +82,12 @@
     font-size: 32px;        
 }
 
+/* large */
+.temperaturecard-temperature-number-size-large {
+    font-size: 96px;        
+}
+
+
 .temperaturecard-degreeletter {
     align-self: flex-start;    
     display: block;    
@@ -71,4 +99,10 @@
 .temperaturecard-degreeletter-size {
     margin-top: 0.375em;
     font-size: 12px;    
+}
+
+/* large */
+.temperaturecard-degreeletter-size-large {
+    margin-top: 0.375em;
+    font-size: 36px;    
 }

@@ -14,7 +14,8 @@ const initial = {
     icon: DEFAULT_WEATHER_ICON,
     description: DEFAULT_WEATHER_DESCRIPTION,
   },
-  errorMessage: ""
+  errorMessage: "",
+  initialState: true,
 };
 
 export function weatherReducer(state = initial, action){
@@ -33,7 +34,8 @@ export function weatherReducer(state = initial, action){
         cityTemperatures: action.payload.cityTemperatures,
         tenDaysAverageTemp: action.payload.tenDaysAverageTemp,
         tenDaysAverageWeather: action.payload.tenDaysAverageWeather,
-        gradientPoints: action.payload.gradientPoints
+        gradientPoints: action.payload.gradientPoints,
+        initialState: false
       }
     }
 

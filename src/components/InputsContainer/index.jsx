@@ -22,7 +22,7 @@ export function InputsContainer(props){
   [weatherIcon]);
 
   const performQuery = (value) => {
-    dispatch(weatherActions.fetchTenDaysForecast(value) );
+    dispatch(weatherActions.fetchTenDaysForecast(value.trim()) );
   }
   
   return (
