@@ -3,3 +3,11 @@
     /*background-image: linear-gradient(to right, rgb(22, 48, 122),rgb(73, 159, 229),rgb(168, 218, 250),rgb(248, 214, 123) ,rgb(240, 150, 97));*/
     height: 100vh;
 }
+
+
+@media screen and (max-width: 800px) {    
+    .gradient-background {
+        height: auto;
+        
+    }
+}

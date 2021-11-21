@@ -14,8 +14,7 @@ export function WeatherForecast(props) {
   const renderTemperature = Math.round(tenDaysAverageTemp);
   
   return (
-    <BackgroundGradient>
-      <div>Weather Forecast</div>
+    <BackgroundGradient>      
       <MainContainer>
         <InputsContainer />
         { !initialState && (

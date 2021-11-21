@@ -6,5 +6,19 @@
     justify-content: center;
     align-items: center;
 
-    margin: 100px 200px 100px;
+    height: 100vh;
+    margin-left: 30vw;
+    margin-right: 30vw;        
+}
+@media screen and (min-width: 800px){
+    .main-container-center-adj {        
+        height: 85%;
+    }    
+}
+
+@media screen and (max-width: 800px) {    
+    .main-container-hight-adj {
+        height: auto;
+        padding-top: 24px;
+    }
 }

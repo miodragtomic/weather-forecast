@@ -16,7 +16,8 @@ export function WeekdaysContainer(props) {
     <div className={styles['weekdays-container']}>
       {
         renderTemperatureList.map( cityOneDayTemp => (
-          <TemperatureCard 
+          <TemperatureCard
+            key={cityOneDayTemp.weekday_name} 
             title={cityOneDayTemp.weekday_name}
             temperature={cityOneDayTemp.temp.day_rounded}
           />
