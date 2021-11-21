@@ -5,8 +5,12 @@
     
     padding: 7px;
     border-radius: 0.5rem;
+
     margin-left: 4px;
     margin-right: 4px;
+
+    margin-top: auto;
+    margin-bottom: auto;        
     
     height: 24px;
 
@@ -17,12 +21,23 @@
     font-family: 'Source Sans Pro', sans-serif;
     /*min-width: 19rem;    */    
 
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+
+
 }
 
 .select-header {
     display: flex;
     flex-wrap: nowrap;
 }
+
 .select-header-title {
     font-family: 'Source Sans Pro', sans-serif;
     font-size: 12px;
@@ -33,25 +48,62 @@
     margin: 0px;
     padding: 0px;
     position: absolute;
-    /*bottom: -12px;*/
+    top: 115%;
+    left: 0;
+    margin-left: -3px;    
     background-color: white;
     padding: 8px;
     border: solid rgb(243, 243, 245) 0.125rem;    
     border-radius: 0.5rem;
+    /*box-shadow: 2px 4px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
+    box-shadow: 1px 2px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);    
 }
 
 .select-content-listitem {
     list-style-type: none;
     display: flex;
     flex-wrap: nowrap;    
-    justify-content: space-between;
+    justify-content: space-between;    
 
-
+    transition: all 0.2s;
+    cursor: pointer;        
 }
+
+
+.select-content-listitem:hover {    
+    background-color: rgb(209, 209, 209);
+    cursor: pointer;    
+}
+
 .select-contant-listitem-atom {
     margin-left: 12px;
     margin-right: 12px;
     font-family: 'Source Sans Pro', sans-serif;
     font-size: 12px;
     align-self: center;
+
+}
+
+.down-caret {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 5px 5px 0 5px;
+    border-color:  rgb(10, 22, 59, 0.53)  transparent transparent transparent;
+    display: inline-block;
+    margin-left: 6px;
+    top: 9px;
+    position: relative;
+    transform: rotate(0deg);
+    transition: all .25s ease-in;        
+    pointer-events: none;
+  }
+  
+.open-caret {
+    transform: rotate(180deg);
+    transition: all .25s ease-out;
+}
+
+.caret-placehlder-adj {
+    visibility: hidden;
 }

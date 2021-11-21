@@ -1,5 +1,6 @@
 import styles from './Select.module.css';
 import { useState, useMemo } from 'react';
+import clsx from 'clsx';
 
 export function Select(props){
   const {
@@ -24,11 +25,14 @@ export function Select(props){
     setOpen(!open);
   }
 
-  const onSelectedHandler = (event) => {
+  const onSelectedHandler = (value) => {
     if(onChange) {
-      onChange(event.target.value);
+      onChange(value);
     }
+
+    setOpen(false);
   }
+
   
 
   const headerTitle = useMemo( () => {
@@ -55,11 +59,13 @@ export function Select(props){
   return (
     <div className={styles['select-container']}>
       <SelectHeader
+        open={open}
         title={value && headerTitle || placeholder} 
         iconUrl={iconUrl}
         iconHint={iconHint}
         iconHeight={iconHeight}
         iconWidth={iconWidth}
+        onOpenChange={toggleOpen}
         />
       { open && (
         <SelectContent 
@@ -71,6 +77,8 @@ export function Select(props){
           keySelector={keySelector}
           valueSelector={valueSelector}
           titleSelector={titleSelector}
+
+          onChange={onSelectedHandler}
           >
             {children}
           </SelectContent>
@@ -81,6 +89,8 @@ export function Select(props){
 }
 function SelectHeader(props) {
   const {
+    open,
+    onOpenChange,
     iconUrl,
     iconHint,
     iconHeight,
@@ -88,8 +98,26 @@ function SelectHeader(props) {
     title,
   } = props;
 
+  const onDoubleClickHandler = (event) => {
+    clearSelectionHandler();
+  }
+
+  const onClickHandler = (event) => {
+    clearSelectionHandler();
+    onOpenChange();
+  }
+
+  const clearSelectionHandler = () => {
+    if(document.selection && document.selection.empty) {
+        document.selection.empty();
+    } else if(window.getSelection) {
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+    }
+  }
+
   return (
-    <div className={styles['select-header']}>
+    <div className={styles['select-header']} onClick={onClickHandler} onDoubleClick={onDoubleClickHandler}>
       {
         iconUrl && (
           <img 
@@ -101,6 +129,7 @@ function SelectHeader(props) {
           />)
       }
       <div className={styles['select-contant-listitem-atom']}>{title}</div>
+      <span className={clsx(styles["down-caret"], open && styles["open-caret"])}></span>
     </div>
   )
 }
@@ -115,17 +144,24 @@ function SelectContent(props){
     keySelector,
     valueSelector,
     titleSelector,
-    children
+    children,
+
+    onChange
   } = props;
+
+  const onClickHandler = (event) => {    
+    if(onChange) onChange(event.target.innerText);
+  }
   
   return (
     <ul className={styles['select-content']}>
       {
-        children?.map( child => (
+        children?.map( child => (        
         <li 
           className={styles['select-content-listitem']}
           key={keySelector(child)} 
           value={valueSelector(child)}
+          onClick={onClickHandler}
         > 
         {
           iconUrlSelector && (
@@ -139,6 +175,7 @@ function SelectContent(props){
           )
         }
           <div className={styles['select-contant-listitem-atom']}>{titleSelector(child)}</div>
+          <span className={clsx(styles["down-caret"],styles["caret-placehlder-adj"])}></span>
         </li>
         ))
       }
