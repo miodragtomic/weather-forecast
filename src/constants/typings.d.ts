@@ -24,5 +24,6 @@ export interface TemperatureListItem {
 export interface CityTemperaturesType {
   lat: number;
   lon: number;
-  daily: Array<TemperatureListItem>;
+  daily?: Array<TemperatureListItem>;
+  list?: Array<TemperatureListItem>;
 }

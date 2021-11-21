@@ -1,0 +1,15 @@
+.weekdays-container {
+    display: flex;    
+
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    margin-top: 1.5rem;
+}
+
+@media screen and (max-width: 768px){
+    .weekdays-container {
+        flex-direction: column;
+        flex-wrap: nowrap;
+    }        
+}

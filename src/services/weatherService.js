@@ -42,7 +42,11 @@ class WeatherServiceSevenDays {
 
     return {
       ...singleTempObj,
-      weekday_name : this._getWeekdayName(singleTempObj.dt)
+      weekday_name : this._getWeekdayName(singleTempObj.dt),
+      temp: {
+        ...singleTempObj.temp,
+        day_rounded: Math.round(singleTempObj.temp.day)
+      }      
     };
   }
 
