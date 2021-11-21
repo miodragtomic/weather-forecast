@@ -1,0 +1,7 @@
+.countries-codes-spinner-container {
+    height: 24px;
+    width: 78px;    
+    display: flex;    
+    justify-content: space-around;
+    align-items: center;    
+}

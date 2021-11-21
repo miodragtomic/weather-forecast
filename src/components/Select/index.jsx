@@ -19,7 +19,7 @@ export function Select(props){
     iconWidth = 24,    
   } = props;
 
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const toggleOpen = () => {
     setOpen(!open);

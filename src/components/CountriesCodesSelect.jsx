@@ -3,6 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { countriesCodesActions } from '../actions/countriesCodesActions';
 import { SpinnerIcon } from './SearchableIcon/SpinnerIcon'
+import selectStyles from './Select/Select.module.css'
+import styles from './CountriesCodesSelect.module.css';
+import clsx from 'clsx';
 
 const iconUrlSelector = countryCodeObj => countryCodeObj.flag;
 const iconHintSelector = countryCodeObj => countryCodeObj.name;
@@ -27,7 +30,11 @@ export function CountriesCodesSelect(props) {
   }
 
   if(loading){
-    return <SpinnerIcon />
+    return (
+      <div className={clsx(selectStyles['select-container'], styles['countries-codes-spinner-container'] )}> 
+        <SpinnerIcon /> 
+      </div>
+    )
   }
 
   return (
