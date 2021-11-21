@@ -33,10 +33,31 @@
 
 }
 
+.select-container:focus {
+    /*color: rgb(10, 22, 59);    */
+    border: solid rgb(184, 199, 250) 0.125rem;
+    color: rgb(10, 22, 59, 0.8);    
+}
+
+.select-container:hover {
+    /*color: rgb(193, 196, 205);    */
+    border: solid rgb(201, 213, 251) 0.125rem;
+}
+
+.select-container::placeholder {
+   color: rgb(140, 145, 162, 0.70);        
+       
+}
+
 .select-header {
     display: flex;
     flex-wrap: nowrap;
 }
+
+.select-header:hover {
+    color: rgb(193, 196, 205);        
+}
+
 
 .select-header-title {
     font-family: 'Source Sans Pro', sans-serif;

@@ -1,8 +1,9 @@
 import { weatherApi } from "../api/weatherApi";
-import { ECONOMIC_API, OPEN_WEATHER_API_FREE_USER } from "../config/appSettings";
+import { OPEN_WEATHER_API_FREE_USER } from "../config/appSettings";
 import { DEBUG_THROW_ERROR } from "../config/environment";
 import { gradientService } from "../services/gradientService";
 import { weatherService } from "../services/weatherService";
+import { ECONOMIC_API } from '../config/environment';
 
 export const FETCH_TEN_DAYS_FORECAST_PENDING = 'FETCH_TEN_DAYS_FORECAST_PENDING'
 export const FETCH_TEN_DAYS_FORECAST_FULFILLED = 'FETCH_TEN_DAYS_FORECAST_FULFILLED'
