@@ -1,8 +1,7 @@
-import { LOAD_ALL_COUNTRIES } from "../config/environment";
+import { ECONOMIC_CODES_API, LOAD_ALL_COUNTRIES } from "../config/environment";
 import { countriesCodesService } from "../services/countriesCodesService";
 import { testCountryCodes } from "../constants/testData"; 
 import { COUNTRIES_CODES } from '../config/appSettings'
-import { ECONOMIC_API } from '../config/environment';
 
 class CountriesCodesApi {
   async fetchTownsCodes(){
@@ -16,15 +15,13 @@ class CountriesCodesApi {
 }
 
 class CountriesCodesEconomicApi {
-  async fetchTownsCodes(){
-    if(ECONOMIC_API){
-      return Promise.resolve(testCountryCodes)
-        .then( countriesCodesService.extractCountriesFromResponse);
-    }
+  async fetchTownsCodes(){    
+    return Promise.resolve(testCountryCodes)
+      .then( countriesCodesService.extractCountriesFromResponse);    
   }
 }
 
 
-export const countriesCodesApi = ECONOMIC_API
+export const countriesCodesApi = ECONOMIC_CODES_API
     ? new CountriesCodesEconomicApi()
     : new CountriesCodesApi();

@@ -26,8 +26,13 @@ export function Select(props){
   }
 
   const onSelectedHandler = (value) => {
-    if(onChange) {
-      onChange(value);
+    if(onChange) {      
+      const tempValue = value.trim();
+      if(tempValue == null || tempValue == "") {
+        return;
+      }
+      
+      onChange(tempValue);
     }
 
     setOpen(false);
@@ -36,24 +41,22 @@ export function Select(props){
   
 
   const headerTitle = useMemo( () => {
-    if(value == null)  return "";
+    if(value == null || value === "")  return "";
     
-    return titleSelector(children?.find( child => valueSelector(child) === value ));
+    return titleSelector(children?.find( child => valueSelector(child) === value));
   }, [value, valueSelector, titleSelector, children])
 
   const iconUrl = useMemo( () => {
-    if(value == null)  return "";
+    if(value == null || value === "")  return "";
     
     return iconUrlSelector && iconUrlSelector(children?.find( child => valueSelector(child) === value ));
   }, [value, valueSelector, iconUrlSelector, children])
 
   const iconHint = useMemo( () => {
-    if(value == null)  return "";
+    if(value == null || value === "")  return "";
     
     return iconHintSelector && iconHintSelector(children?.find( child => valueSelector(child) === value ));
   }, [value, valueSelector, iconHintSelector, children])
-
-
 
 
   return (
