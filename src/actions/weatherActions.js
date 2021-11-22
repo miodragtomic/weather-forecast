@@ -3,7 +3,7 @@ import { OPEN_WEATHER_API_FREE_USER } from "../config/appSettings";
 import { DEBUG_THROW_ERROR } from "../config/environment";
 import { gradientService } from "../services/gradientService";
 import { weatherService } from "../services/weatherService";
-import { ECONOMIC_API } from '../config/environment';
+import { ECONOMIC_WEATHER_API } from '../config/environment';
 
 export const FETCH_TEN_DAYS_FORECAST_PENDING = 'FETCH_TEN_DAYS_FORECAST_PENDING'
 export const FETCH_TEN_DAYS_FORECAST_FULFILLED = 'FETCH_TEN_DAYS_FORECAST_FULFILLED'
@@ -39,7 +39,7 @@ class WeatherActions {
     return async (dispatch, getState) => {
       dispatch( this._startFetchingTenDaysForecast() );    
       try {        
-        const { selectedCountryCode } = ECONOMIC_API ?  { selectedCountryCode: 'RS'} : getState().countriesCodes;
+        const { selectedCountryCode } = ECONOMIC_WEATHER_API ?  { selectedCountryCode: 'RS'} : getState().countriesCodes;
         
         if( selectedCountryCode == null) throw new Error("Please select country code");
 

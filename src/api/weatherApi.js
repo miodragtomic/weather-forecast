@@ -1,5 +1,5 @@
 import { weatherService } from "../services/weatherService";
-import { OPEN_API_KEY, ECONOMIC_API } from "../config/environment";
+import { OPEN_API_KEY, ECONOMIC_WEATHER_API } from "../config/environment";
 import { testWeatherCityTemperatures } from "../constants/testData"; 
 import { NUMBER_OF_DAYS_TO_FETCH } from '../config/appSettings'
 
@@ -32,6 +32,6 @@ class WeatherEconomicApi {
   }
 }
 
- export const weatherApi = ECONOMIC_API
+ export const weatherApi = ECONOMIC_WEATHER_API
     ? new WeatherEconomicApi()
     : new WeatherApi();    

@@ -1,4 +1,4 @@
-import { __ECONOMIC_API, __DEBUG_THROW_ERROR, __ECONOMIC_CODES_API, __LOAD_ALL_COUNTRIES } from "./appSettings";
+import { __ECONOMIC_WEATHER_API, __DEBUG_THROW_ERROR, __ECONOMIC_CODES_API, __LOAD_ALL_COUNTRIES } from "./appSettings";
 
 const isProduction = process.env === 'production'
 export const LOAD_ALL_COUNTRIES = isProduction
@@ -10,9 +10,9 @@ export const DEBUG_THROW_ERROR = process.env !== isProduction
   ? __DEBUG_THROW_ERROR
   : false;
 
-export const ECONOMIC_API = isProduction
+export const ECONOMIC_WEATHER_API = isProduction
   ? false
-  : __ECONOMIC_API;
+  : __ECONOMIC_WEATHER_API;
 
 export const ECONOMIC_CODES_API = isProduction
   ? false
