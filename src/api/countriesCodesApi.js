@@ -12,9 +12,16 @@ class CountriesCodesApi {
     .then( result => result.json())
     .then( countriesCodesService.extractCountriesFromResponse )    
   }
+
+  async fetchCityGeocodes(countryName, cityName){
+    const countryNameUrlEncoded = encodeURIComponent(countryName);
+    const cityNameUrlEncoded = encodeURIComponent(cityName);
+    return fetch(`https://nominatim.openstreetmap.org/search?city=${cityNameUrlEncoded}&country=${countryNameUrlEncoded}&format=json`)
+      .then( result => result.json())
+  }
 }
 
-class CountriesCodesEconomicApi {
+class CountriesCodesEconomicApi extends CountriesCodesApi {
   async fetchTownsCodes(){    
     return Promise.resolve(testCountryCodes)
       .then( countriesCodesService.extractCountriesFromResponse);    

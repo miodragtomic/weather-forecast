@@ -4,6 +4,7 @@ import { DEBUG_THROW_ERROR } from "../config/environment";
 import { gradientService } from "../services/gradientService";
 import { weatherService } from "../services/weatherService";
 import { ECONOMIC_WEATHER_API } from '../config/environment';
+import { countriesCodesActions } from "./countriesCodesActions";
 
 export const FETCH_TEN_DAYS_FORECAST_PENDING = 'FETCH_TEN_DAYS_FORECAST_PENDING'
 export const FETCH_TEN_DAYS_FORECAST_FULFILLED = 'FETCH_TEN_DAYS_FORECAST_FULFILLED'
@@ -47,8 +48,20 @@ class WeatherActions {
         if(OPEN_WEATHER_API_FREE_USER){
           const { countriesCodes } = getState().countriesCodes;
 
-          const [lat, lng] = countriesCodes.find( ccEntry => ccEntry.alpha2Code === selectedCountryCode).latlng;
-          cityTemperatures = await weatherApi.fetchSevenDaysForecast(lat, lng);
+          //if api becomes not free, or town name isn't geolocated, using country lat lon
+          let geocodeObj;
+          try {
+            geocodeObj = await dispatch(countriesCodesActions.tryGeolocateCity(cityName));
+          }catch(error){
+            const [lat, lng] = countriesCodes.find( ccEntry => ccEntry.alpha2Code === selectedCountryCode).latlng;
+
+            geocodeObj = {
+              lat: lat,
+              lon: lng
+            };
+          }
+          
+          cityTemperatures = await weatherApi.fetchSevenDaysForecast(geocodeObj.lat, geocodeObj.lon);
 
         }else {
           cityTemperatures = await weatherApi.fetchTenDaysForecast(selectedCountryCode, cityName);
