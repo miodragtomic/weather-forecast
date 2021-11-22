@@ -5,12 +5,13 @@ import { WeekdaysContainer } from "../components/WeekdaysContainer";
 import { TemperatureCard } from '../components/TemperatureCard';
 import { useSelector } from "react-redux";
 import styles from './WeatherForecast.module.css';
+import { weatherService } from "../services/weatherService";
 
 export function WeatherForecast(props) {
   const tenDaysAverageTemp = useSelector(store => store.weather.tenDaysAverageTemp);
   const initialState = useSelector(store => store.weather.initialState);
 
-  const dateRange = "Decembar 4 - 10 2020"
+  const dateRange = weatherService.generateDateRangeString();
   const renderTemperature = Math.round(tenDaysAverageTemp);
   
   return (

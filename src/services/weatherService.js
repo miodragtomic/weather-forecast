@@ -2,7 +2,9 @@ import pick from 'lodash/pick';
 import { pick as fp_pick, map as fp_map, sortBy as fp_sortBy, reduce as fp_reduce, flow, head} from 'lodash/fp';
 //import { CountryCodesType, CityTemperaturesType, TemperatureListItem } from '../constants/typings';
 import { NUMBER_OF_DAYS_TO_FETCH, OPEN_WEATHER_API_FREE_USER } from '../config/appSettings'
-
+import addDays from 'date-fns/addDays';
+import getDate from 'date-fns/getDate';
+import getYear from 'date-fns/getYear';
 
 class WeatherServiceSevenDays {
   constructor(){    
@@ -11,6 +13,7 @@ class WeatherServiceSevenDays {
     this.calulateAverageTenDaysTemperature = this.calulateAverageSevenOrTenDaysTemperature.bind(this);
     this.generateWeatherIconUrl = this.generateWeatherIconUrl.bind(this); 
     this.getCityWeatherList = this.getCityWeatherList.bind(this);
+    this.generateDateRangeString = this.generateDateRangeString.bind(this);
 
     this._extractSingleTemperatureFromTemperatureObject = this._extractSingleTemperatureFromTemperatureObject.bind(this);
     this._extractTemperaturesFromTemperatresList = this._extractTemperaturesFromTemperatresList.bind(this);
@@ -91,6 +94,18 @@ class WeatherServiceSevenDays {
     return OPEN_WEATHER_API_FREE_USER
       ? cityTemperatures.daily
       : cityTemperatures.list
+  }
+
+  generateDateRangeString(){
+    const startDate = new Date();
+    const endDate = addDays(startDate, NUMBER_OF_DAYS_TO_FETCH - 1);
+
+    const monthName = startDate.toLocaleDateString('defaault', { month: 'long'})
+    const dayStartDate = getDate(startDate);
+    const dayEndDate = getDate(endDate);
+    const yearStartDate = getYear(startDate)
+    
+    return `${monthName} ${dayStartDate} - ${dayEndDate} ${yearStartDate}`;
   }
 }
 
