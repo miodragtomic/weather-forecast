@@ -1,5 +1,4 @@
 import pick from 'lodash/pick';
-import { flow, pick as fp_pick, map as fp_map, first as fp_first } from 'lodash/fp'
 
 class CountriesCodesService {
   constructor() {

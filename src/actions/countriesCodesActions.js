@@ -66,10 +66,10 @@ class CountriesCodesActions {
         const geocodeResponse = await countriesCodesApi.fetchCityGeocodes(countryName, cityName);
 
         geocodeObj = countriesCodesService.extractCityGeocodeInfo(geocodeResponse);
-        dispatch(this.storeLastMatchedCityGeocodeInfo( geocodeObj));
+        dispatch(this.__storeLastMatchedCityGeocodeInfo( geocodeObj));
       }
       catch(error){
-        dispatch(this.storeLastMatchedCityGeocodeInfo( {
+        dispatch(this.__storeLastMatchedCityGeocodeInfo( {
           display_name: "The city could not be located"
         }));
         throw error;
@@ -79,7 +79,7 @@ class CountriesCodesActions {
     }
   }
 
-  storeLastMatchedCityGeocodeInfo(geocodeObj){
+  __storeLastMatchedCityGeocodeInfo(geocodeObj){
     return {
       type: STORE_LAST_MATCHED_GEOCODE,
       payload: geocodeObj      

@@ -1,7 +1,6 @@
 .select-container {
     position: relative;
-    align-self: center;
-    /*padding: 0.125rem;*/
+    align-self: center;    
     
     padding: 7px;
     border-radius: 0.5rem;
@@ -16,10 +15,8 @@
 
     border: solid rgb(243, 243, 245) 0.125rem;    
     color: rgb(10, 22, 59, 0.60);    
-    /*outline: none;*/
-    /*font-family: 'Roboto Condensed', sans-serif;*/
-    font-family: 'Source Sans Pro', sans-serif;
-    /*min-width: 19rem;    */    
+
+    font-family: 'Source Sans Pro', sans-serif;    
 
 
     -webkit-touch-callout: none; /* iOS Safari */
@@ -33,14 +30,12 @@
 
 }
 
-.select-container:focus {
-    /*color: rgb(10, 22, 59);    */
+.select-container:focus {    
     border: solid rgb(184, 199, 250) 0.125rem;
     color: rgb(10, 22, 59, 0.8);    
 }
 
-.select-container:hover {
-    /*color: rgb(193, 196, 205);    */
+.select-container:hover {    
     border: solid rgb(201, 213, 251) 0.125rem;
 }
 
@@ -76,7 +71,7 @@
     padding: 8px;
     border: solid rgb(243, 243, 245) 0.125rem;    
     border-radius: 0.5rem;
-    /*box-shadow: 2px 4px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
+    
     box-shadow: 1px 2px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);    
 
     max-height: 280px;
